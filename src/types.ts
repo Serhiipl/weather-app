@@ -70,6 +70,17 @@ export interface IDetailsWeather {
   sunset: string;
 }
 
+export interface IForecastWeatherDetail extends IDetailsWeather {
+  weatherIcon: string;
+  date: string;
+  day: string;
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  description: string;
+}
+
 // export interface WeatherDetail {
 //   dt: number;
 //   main: {

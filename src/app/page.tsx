@@ -12,6 +12,7 @@ import { getIconStyle } from "@/utils/getStyleIcons";
 import DetailsWeather from "@/components/DetailsWeather";
 import { metersToKilometers } from "@/utils/mToKm";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
+import fromUnixTime from "date-fns/fromUnixTime";
 export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>(
     "weatherData",
@@ -104,8 +105,14 @@ export default function Home() {
                 )}
                 airPressure={`${todayWeather?.main.pressure} hPa`}
                 humidity={`${todayWeather?.main.humidity}%`}
-                sunrise={format(data?.city.sunrise ?? 1702949452, "H:mm")}
-                sunset={format(data?.city.sunset ?? 1702949452, "H:mm")}
+                sunrise={format(
+                  fromUnixTime(data?.city.sunrise ?? 1714964212),
+                  "H:mm"
+                )}
+                sunset={format(
+                  fromUnixTime(data?.city.sunset ?? 1702949452),
+                  "H:mm"
+                )}
                 windSpeed={convertWindSpeed(todayWeather?.wind.speed ?? 1.64)}
               />
             </WeatherContainer>
