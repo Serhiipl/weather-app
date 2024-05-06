@@ -9,7 +9,9 @@ import parseISO from "date-fns/parseISO";
 import WeatherContainer from "@/components/WeatherContainer";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getIconStyle } from "@/utils/getStyleIcons";
-
+import DetailsWeather from "@/components/DetailsWeather";
+import { metersToKilometers } from "@/utils/mToKm";
+import { convertWindSpeed } from "@/utils/convertWindSpeed";
 export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>(
     "weatherData",
@@ -77,15 +79,42 @@ export default function Home() {
                     <WeatherIcon
                       iconName={getIconStyle(data.weather[0].icon, data.dt_txt)}
                     />
-                    <p>{data?.main.temp.toPrecision(2) ?? 0}°</p>
+                    <p>{data?.main.temp.toFixed() ?? 0}°</p>
                   </div>
                 ))}
               </div>
             </WeatherContainer>
           </div>
+          <div className="flex gap-4">
+            <WeatherContainer className="flex-col justify-center items-center w-fit px-4">
+              <p className="capitalize text-center">
+                {todayWeather?.weather[0].description}
+              </p>
+              <WeatherIcon
+                iconName={getIconStyle(
+                  todayWeather?.weather[0].icon ?? "",
+                  todayWeather?.dt_txt ?? ""
+                )}
+              />
+            </WeatherContainer>
+            <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200/80">
+              <DetailsWeather
+                visibility={metersToKilometers(
+                  todayWeather?.visibility ?? 10000
+                )}
+                airPressure={`${todayWeather?.main.pressure} hPa`}
+                humidity={`${todayWeather?.main.humidity}%`}
+                sunrise={format(data?.city.sunrise ?? 1702949452, "H:mm")}
+                sunset={format(data?.city.sunset ?? 1702949452, "H:mm")}
+                windSpeed={convertWindSpeed(todayWeather?.wind.speed ?? 1.64)}
+              />
+            </WeatherContainer>
+          </div>
         </section>
         {/* 7 day forecast data */}
-        <section></section>
+        <section className="flex flex-col gap-2 w-full">
+          <p className="text-2xl">Forecast (7 days)</p>
+        </section>
       </main>
     </div>
   );

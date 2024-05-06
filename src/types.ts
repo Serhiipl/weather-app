@@ -55,6 +55,21 @@ interface CityInfo {
   sunset: number;
 }
 
+export interface ISingleWeatherDetails {
+  information: string;
+  icon: React.ReactNode;
+  value: string;
+}
+
+export interface IDetailsWeather {
+  visibility: string;
+  humidity: string;
+  windSpeed: string;
+  airPressure: string;
+  sunrise: string;
+  sunset: string;
+}
+
 // export interface WeatherDetail {
 //   dt: number;
 //   main: {
