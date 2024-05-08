@@ -13,6 +13,7 @@ import DetailsWeather from "@/components/DetailsWeather";
 import { metersToKilometers } from "@/utils/mToKm";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import fromUnixTime from "date-fns/fromUnixTime";
+import DetailWeatherComponent from "@/components/DetailWeatherComponent";
 export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>(
     "weatherData",
@@ -45,6 +46,23 @@ export default function Home() {
   const feels = todayWeather ? Math.round(todayWeather.main.feels_like) : "";
   const maxTemp = todayWeather ? Math.round(todayWeather.main.temp_max) : "";
   const minTemp = todayWeather ? Math.round(todayWeather.main.temp_min) : "";
+
+  const uniqueDates = [
+    ...new Set(
+      data?.list.map(
+        (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
+      )
+    ),
+  ];
+
+  const firstDataForEachDay = uniqueDates.map((date) => {
+    return data?.list.find((entry) => {
+      const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+      const entryTime = new Date(entry.dt * 1000).getHours();
+      return entryDate === date && entryTime >= 6;
+    });
+  });
+
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar />
@@ -121,6 +139,31 @@ export default function Home() {
         {/* 7 day forecast data */}
         <section className="flex flex-col gap-2 w-full">
           <p className="text-2xl">Forecast (7 days)</p>
+          {firstDataForEachDay.map((d, i) => (
+            <DetailWeatherComponent
+              key={i}
+              description={d?.weather[0].description ?? ""}
+              weatherIcon={d?.weather[0].icon ?? "01d"}
+              date={format(parseISO(d?.dt_txt ?? ""), "dd.MM")}
+              day={format(parseISO(d?.dt_txt ?? ""), "EEEE")}
+              feels_like={Math.round(d?.main.feels_like ?? 0)}
+              temp={Math.round(d?.main.temp ?? 0)}
+              temp_min={`${Math.round(d?.main.temp_min ?? 0)} °↓`}
+              temp_max={`${Math.round(d?.main.temp_max ?? 0)}°↑`}
+              airPressure={`${d?.main.pressure} hPa`}
+              humidity={`${d?.main.humidity}%`}
+              sunrise={format(
+                fromUnixTime(data?.city.sunrise ?? 1714964212),
+                "H:mm"
+              )}
+              sunset={format(
+                fromUnixTime(data?.city.sunset ?? 1702949452),
+                "H:mm"
+              )}
+              visibility={metersToKilometers(d?.visibility ?? 10000)}
+              windSpeed={convertWindSpeed(d?.wind.speed ?? 1.64)}
+            />
+          ))}
         </section>
       </main>
     </div>

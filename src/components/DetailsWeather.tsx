@@ -20,7 +20,7 @@ export default function DetailsWeather(props: IDetailsWeather) {
   return (
     <>
       <SingleWeatherDetails
-        information="Visability"
+        information="Visibility"
         icon={<FaRegEye />}
         value={props.visibility?.toString() ?? ""}
       />

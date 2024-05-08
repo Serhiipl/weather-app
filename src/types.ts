@@ -76,8 +76,8 @@ export interface IForecastWeatherDetail extends IDetailsWeather {
   day: string;
   temp: number;
   feels_like: number;
-  temp_min: number;
-  temp_max: number;
+  temp_min: string;
+  temp_max: string;
   description: string;
 }
 
