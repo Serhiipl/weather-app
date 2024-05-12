@@ -62,7 +62,7 @@ interface CityInfo {
 export interface ISingleWeatherDetails {
   information: string;
   icon: React.ReactNode;
-  value: string;
+  value?: string;
 }
 
 export interface IDetailsWeather {

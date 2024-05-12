@@ -18,7 +18,7 @@ export default function DetailWeatherComponent(props: IForecastWeatherDetail) {
   return (
     <WeatherContainer className="gap-4">
       <section className="flex items-center gap-4 px-4">
-        <div>
+        <div className="flex flex-col items-center">
           <WeatherIcon iconName={weatherIcon} />
           <p>{date}</p>
           <p className="text-sm">{day}</p>
