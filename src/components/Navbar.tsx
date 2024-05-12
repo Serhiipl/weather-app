@@ -58,6 +58,25 @@ export default function Navbar({ location }: Props) {
       }, 500);
     }
   }
+  function handleCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          setLoadingCity(true);
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+          );
+          setTimeout(() => {
+            setLoadingCity(false);
+            setPlace(response.data.name);
+          }, 500);
+        } catch (error) {
+          setLoadingCity(false);
+        }
+      });
+    }
+  }
   return (
     <nav className="top-0 left-0 sticky z-50 shadow-sm bg-white">
       <div className="flex justify-between items-center w-full h-[5rem] max-w-7xl px-3 mx-auto">
@@ -68,7 +87,11 @@ export default function Navbar({ location }: Props) {
         </div>
         {/*  */}
         <section className="flex items-center gap-2">
-          <MdMyLocation className="text-3xl text-gray-500 hover:opacity-80 cursor-pointer" />
+          <MdMyLocation
+            title="Your Current Location"
+            onClick={handleCurrentLocation}
+            className="text-3xl text-gray-500 hover:opacity-80 cursor-pointer"
+          />
           <ImLocation2 className="text-3xl text-gray-500 hover:opacity-80 cursor-pointer" />
           <p className="text-slate-900/80 text-lg">{location}</p>
           <div className="relative">
