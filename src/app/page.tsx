@@ -1,9 +1,9 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
-import { WeatherData } from "@/types";
+import { WeatherData, IDailyData } from "@/types";
 import { useQuery } from "react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import parseISO from "date-fns/parseISO";
 import WeatherContainer from "@/components/WeatherContainer";
@@ -14,13 +14,30 @@ import { metersToKilometers } from "@/utils/mToKm";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import fromUnixTime from "date-fns/fromUnixTime";
 import DetailWeatherComponent from "@/components/DetailWeatherComponent";
+
 export default function Home() {
   const { isLoading, error, data } = useQuery<WeatherData>(
     "weatherData",
+    //   async () => {
+    //     try {
+    //       const response = await axios.get(
+    //         `https://api.openweathermap.org/data/2.5/forecast?q=gdansk&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric&cnt=40`
+    //       );
+    //       return response.data;
+    //     } catch (error) {
+    //       throw new Error("An error occurred while fetching weather data.");
+    //     }
+    //   }
+    // );
+    // console.log("data", data);
+    // if (isLoading)
+    //   return (
+    //     <div className="flex items-center justify-center min-h-screen">
+    //       <p className="animate-bounce">Loading...</p>
     async () => {
       try {
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=gdansk&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric&cnt=56`
+          `https://api.openweathermap.org/data/2.5/forecast?q=gdansk&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&units=metric&cnt=40`
         );
         return response.data;
       } catch (error) {
@@ -28,6 +45,42 @@ export default function Home() {
       }
     }
   );
+
+  const [dailyData, setDailyData] = useState<IDailyData[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      const processedDailyData: IDailyData[] = [];
+
+      const uniqueDates = [
+        ...new Set(
+          data.list.map(
+            (item) => new Date(item.dt_txt).toISOString().split("T")[0]
+          )
+        ),
+      ].sort();
+
+      uniqueDates.forEach((date) => {
+        const dayEntries = data.list.filter((entry) => {
+          const entryDate = new Date(entry.dt * 1000)
+            .toISOString()
+            .split("T")[0];
+          return entryDate === date;
+        });
+
+        const maxTemp = Math.max(...dayEntries.map((entry) => entry.main.temp));
+        const minTemp = Math.min(...dayEntries.map((entry) => entry.main.temp));
+
+        processedDailyData.push({
+          maxTemp,
+          minTemp,
+        });
+      });
+
+      setDailyData(processedDailyData);
+    }
+  }, [data]);
+
   console.log("data", data);
   if (isLoading)
     return (
@@ -50,10 +103,12 @@ export default function Home() {
   const uniqueDates = [
     ...new Set(
       data?.list.map(
-        (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
+        (item) => new Date(item.dt_txt).toISOString().split("T")[0]
       )
     ),
   ];
+  uniqueDates.pop();
+  console.log(uniqueDates); // Виводить Set унікальних дат
 
   const firstDataForEachDay = uniqueDates.map((date) => {
     return data?.list.find((entry) => {
@@ -62,6 +117,20 @@ export default function Home() {
       return entryDate === date && entryTime >= 6;
     });
   });
+
+  // const dailyData: DailyData[] = {}; // Об'єкт для зберігання даних про погоду для кожного дня
+
+  // uniqueDates.forEach((date) => {
+  //   const dayEntries = data?.list.filter((entry) => {
+  //     const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+  //     return entryDate === date;
+  //   });
+
+  //   const maxTemp = Math.max(...dayEntries.map((entry) => entry.main.temp));
+  //   const minTemp = Math.min(...dayEntries.map((entry) => entry.main.temp));
+
+  //   dailyData[date] = { maxTemp, minTemp };
+  // });
 
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
@@ -136,9 +205,9 @@ export default function Home() {
             </WeatherContainer>
           </div>
         </section>
-        {/* 7 day forecast data */}
+        {/* 5 day forecast data */}
         <section className="flex flex-col gap-2 w-full">
-          <p className="text-2xl">Forecast (7 days)</p>
+          <p className="text-2xl">Forecast (5 days)</p>
           {firstDataForEachDay.map((d, i) => (
             <DetailWeatherComponent
               key={i}
@@ -147,9 +216,11 @@ export default function Home() {
               date={format(parseISO(d?.dt_txt ?? ""), "dd.MM")}
               day={format(parseISO(d?.dt_txt ?? ""), "EEEE")}
               feels_like={Math.round(d?.main.feels_like ?? 0)}
-              temp={Math.round(d?.main.temp ?? 0)}
-              temp_min={`${Math.round(d?.main.temp_min ?? 0)} °↓`}
-              temp_max={`${Math.round(d?.main.temp_max ?? 0)}°↑`}
+              temp={`${Math.round(dailyData[i]?.maxTemp ?? 0)}`}
+              // temp_min={`${Math.round(d?.main.temp_min ?? 0)} °↓`}
+              // temp_max={`${Math.round(d?.main.temp_max ?? 0)}°↑`}
+              temp_min={`${Math.round(dailyData[i]?.minTemp ?? 0)} °↓`}
+              temp_max={`${Math.round(dailyData[i]?.maxTemp ?? 0)} °↑`}
               airPressure={`${d?.main.pressure} hPa`}
               humidity={`${d?.main.humidity}%`}
               sunrise={format(

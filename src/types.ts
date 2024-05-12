@@ -1,3 +1,7 @@
+export interface IDailyData {
+  maxTemp: number;
+  minTemp: number;
+}
 export interface WeatherData {
   cod: string;
   message: number;
@@ -66,15 +70,15 @@ export interface IDetailsWeather {
   humidity: string;
   windSpeed: string;
   airPressure: string;
-  sunrise: string;
-  sunset: string;
+  sunrise?: string;
+  sunset?: string;
 }
 
 export interface IForecastWeatherDetail extends IDetailsWeather {
   weatherIcon: string;
   date: string;
   day: string;
-  temp: number;
+  temp: string;
   feels_like: number;
   temp_min: string;
   temp_max: string;
