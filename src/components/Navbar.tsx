@@ -56,6 +56,7 @@ export default function Navbar({ location }: Props) {
         setLoadingCity(false);
         setPlace(city);
         setShowSuggestions(false);
+        setCity("");
       }, 500);
     }
   }
@@ -66,15 +67,16 @@ export default function Navbar({ location }: Props) {
         try {
           setLoadingCity(true);
           const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
           );
           setTimeout(() => {
             setLoadingCity(false);
             setPlace(response.data.name);
-          }, 500);
+          }, 300);
         } catch (error) {
           setLoadingCity(false);
         }
+        console.log("response", setPlace);
       });
     }
   }
