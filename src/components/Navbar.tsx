@@ -42,6 +42,7 @@ export default function Navbar({ location }: Props) {
   function handleSuggestionClick(value: string) {
     setCity(value);
     setShowSuggestions(false);
+    setPlace(city);
   }
   function handleSubmitSearch(e: React.FormEvent<HTMLFormElement>) {
     setLoadingCity(true);
