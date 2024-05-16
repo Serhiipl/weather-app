@@ -8,7 +8,7 @@ export default function WeatherContainer(
     <div
       {...props}
       className={cn(
-        "flex w-full bg-white border rounded-xl py-4 shadow-sm",
+        "flex w-full bg-white border rounded-xl py-4 shadow-sm ",
         props.className
       )}
     />

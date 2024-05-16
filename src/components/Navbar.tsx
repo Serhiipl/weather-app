@@ -81,22 +81,29 @@ export default function Navbar({ location }: Props) {
     }
   }
   return (
-    <nav className="top-0 left-0 sticky z-50 shadow-sm bg-white">
-      <div className="flex justify-between items-center w-full h-[5rem] max-w-7xl px-3 mx-auto">
-        <div className="flex items-center justify-center gap-2">
-          {/* чого не H1? */}
-          <h2 className="text-gray-500 text-3xl"> Weather</h2>
-          <MdWbSunny className="text-3xl mt-1 text-yellow-500" />
+    <nav className="top-0 left-0 sticky z-50 shadow-sm bg-white w-full">
+      <div className="flex justify-evenly items-center w-full sm:h-[5rem] sm:flex-nowrap max-w-md sm:max-w-7xl px-3 mx-auto flex-wrap">
+        <div className="flex justify-between px-2 sm:px-4 py-3 w-full">
+          <div className="flex items-center justify-center gap-2">
+            {/* чого не H1? */}
+            <h1 className="text-gray-500 text-xl sm:text-3xl">
+              {" "}
+              Sergio&apos;s Weather
+            </h1>
+            <MdWbSunny className="text-xl sm:text-3xl mt-1 text-yellow-500" />
+          </div>
+          {/*  */}
+          <div className="flex items-center gap-1 pr-1 sm:px-2">
+            <MdMyLocation
+              title="Your Current Location"
+              onClick={handleCurrentLocation}
+              className="text-xl sm:text-3xl text-gray-500 hover:opacity-80 cursor-pointer"
+            />
+            <ImLocation2 className="text-xl sm:text-3xl text-gray-500 hover:opacity-80 cursor-pointer" />
+            <p className="text-slate-900/80 text-lg">{location}</p>
+          </div>
         </div>
-        {/*  */}
-        <section className="flex items-center gap-2">
-          <MdMyLocation
-            title="Your Current Location"
-            onClick={handleCurrentLocation}
-            className="text-3xl text-gray-500 hover:opacity-80 cursor-pointer"
-          />
-          <ImLocation2 className="text-3xl text-gray-500 hover:opacity-80 cursor-pointer" />
-          <p className="text-slate-900/80 text-lg">{location}</p>
+        <section className="flex sm:items-center justify-end min-w-96 py-4 sm:py-0 sm:min-w-min">
           <div className="relative">
             {/* search */}
             <SearchBar

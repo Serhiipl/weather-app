@@ -14,7 +14,7 @@ export default function SearchBar(props: SearchBarProps) {
     <form
       onSubmit={props.onSubmit}
       className={cn(
-        "flex relative items-center justify-center h-10",
+        "flex relative items-center justify-center h-8 sm:h-10",
         props.className
       )}
     >
@@ -31,7 +31,7 @@ export default function SearchBar(props: SearchBarProps) {
       border-solid border-2 border-l-transparent border-gray-400 shadow-md transition
       hover:bg-green-600 focus:bg-green-900 whitespace-nowrap"
       >
-        <IoSearch className="text-lg" />
+        <IoSearch className="text-sm sm:text-lg " />
       </button>
     </form>
   );

@@ -36,7 +36,7 @@ export default function DetailWeatherComponent(props: IForecastWeatherDetail) {
           </div>
         </div>
       </section>
-      <section className="flex justify-between gap-4 w-full px-4 pr-10 overflow-x-auto-auto">
+      <section className="flex justify-between gap-4 w-full px-4 pr-10 overflow-x-auto">
         <DetailsWeather {...props} />
       </section>
     </WeatherContainer>

@@ -108,10 +108,28 @@ export default function Home() {
     });
   });
 
+  // Отримання унікальних дат без часу
+  // const uniqueDates = [
+  //   ...new Set(
+  //     data?.list.map((item) =>
+  //       new Date(item.dt_txt).toISOString().substring(0, 10)
+  //     )
+  //   ),
+  // ];
+  // console.log("uniqueDates", uniqueDates);
+  // // Вибір записів погоди після 00:00 години для кожного дня
+  // const firstDataForEachDay = uniqueDates.map((date) => {
+  //   return data?.list.filter((entry) => {
+  //     const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
+  //     const entryTime = new Date(entry.dt * 1000).getHours();
+  //     return entryDate === date && entryTime >= 6;
+  //   })[0]; // Вибір першого запису після 00:00 години для кожного дня
+  // });
+
   return (
     <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
       <Navbar location={data?.city.name} />
-      <main className="flex flex-col gap-9 w-full mx-auto px-3 pb-10 pt-4">
+      <main className="flex flex-col max-w-md sm:max-w-7xl  gap-9 w-full mx-auto px-3 pb-10 pt-4">
         {/* today data */}
         {loadingCity ? (
           <WeatherSkeleton />
@@ -122,10 +140,12 @@ export default function Home() {
                 <h2 className="flex gap-1 text-2xl items-end">
                   <p className="text-xl">{formattedDate}</p>
                 </h2>
-                <WeatherContainer className="gap-10 px-6 items-center">
+                <WeatherContainer className="sm:gap-10 px-6 items-center">
                   <div className="flex flex-col px-4 gap-2 justify-center items-center">
-                    <div className="text-5xl">{temperature}°</div>
-                    <p className="text-sm space-x-1 whitespace-normal text-nowrap">
+                    <div className="text-3xl sm:text-5xl font-semibold text-gray-800">
+                      {temperature}°
+                    </div>
+                    <p className="text-xs sm:text-sm space-x-1 whitespace-normal text-nowrap">
                       <span>Feels like {feels}°</span>
                     </p>
                     <p className="text-xs space-x-2">
@@ -134,8 +154,8 @@ export default function Home() {
                     </p>
                   </div>
                   {/* time & weather icon */}
-                  <div className="flex justify-between pr-3 gap-10 sm:gap-16 overflow-x-auto w-full">
-                    {data?.list.map((data, index) => (
+                  <div className="flex justify-between pr-3 gap-3 sm:gap-15 overflow-x-auto w-full">
+                    {data?.list.slice(0, 11).map((data, index) => (
                       <div
                         key={index}
                         className="flex flex-col justify-between gap-2 items-center text-xs font-semibold"
@@ -168,7 +188,7 @@ export default function Home() {
                     )}
                   />
                 </WeatherContainer>
-                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200/80">
+                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200/80 overflow-x-auto">
                   <DetailsWeather
                     visibility={metersToKilometers(
                       todayWeather?.visibility ?? 10000
