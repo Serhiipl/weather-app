@@ -81,7 +81,7 @@ export default function Navbar({ location }: Props) {
     }
   }
   return (
-    <nav className="top-0 left-0 sticky z-50 shadow-sm bg-white w-full">
+    <nav className="top-0 left-0 sticky z-50 shadow-sm bg-white w-full backdrop-filter backdrop-blur-sm bg-opacity-80">
       <div className="flex justify-evenly items-center w-full sm:h-[5rem] sm:flex-nowrap max-w-md sm:max-w-7xl px-3 mx-auto flex-wrap">
         <div className="flex justify-between px-2 sm:px-4 py-3 w-full">
           <div className="flex items-center justify-center gap-2">

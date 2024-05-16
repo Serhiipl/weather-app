@@ -17,7 +17,7 @@ import DetailWeatherComponent from "@/components/DetailWeatherComponent";
 import { useAtom } from "jotai";
 import { loadingCityAtom, placeAtom } from "./atom";
 import WeatherSkeleton from "@/components/WeatherSkeleton";
-
+const backgroundImageURL = "/bg-image.webp";
 export default function Home() {
   const [place, setPlace] = useAtom(placeAtom);
   const [loadingCity] = useAtom(loadingCityAtom);
@@ -127,7 +127,10 @@ export default function Home() {
   // });
 
   return (
-    <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
+    <div
+      className="flex flex-col gap-4 bg-gray-100 min-h-screen"
+      style={{ backgroundImage: `url(${backgroundImageURL})` }}
+    >
       <Navbar location={data?.city.name} />
       <main className="flex flex-col max-w-md sm:max-w-7xl  gap-9 w-full mx-auto px-3 pb-10 pt-4">
         {/* today data */}
@@ -140,7 +143,7 @@ export default function Home() {
                 <h2 className="flex gap-1 text-2xl items-end">
                   <p className="text-xl">{formattedDate}</p>
                 </h2>
-                <WeatherContainer className="sm:gap-10 px-6 items-center">
+                <WeatherContainer className="sm:gap-10 px-6 items-center backdrop-filter backdrop-blur-sm bg-opacity-70">
                   <div className="flex flex-col px-4 gap-2 justify-center items-center">
                     <div className="text-3xl sm:text-5xl font-semibold text-gray-800">
                       {temperature}°
@@ -177,7 +180,7 @@ export default function Home() {
                 </WeatherContainer>
               </div>
               <div className="flex gap-4">
-                <WeatherContainer className="flex-col justify-center items-center w-fit px-4">
+                <WeatherContainer className="flex-col justify-center items-center w-fit px-4 backdrop-filter backdrop-blur-sm bg-opacity-70">
                   <p className="capitalize text-center">
                     {todayWeather?.weather[0].description}
                   </p>
@@ -188,7 +191,7 @@ export default function Home() {
                     )}
                   />
                 </WeatherContainer>
-                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200/80 overflow-x-auto">
+                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200 overflow-x-auto backdrop-filter backdrop-blur-sm bg-opacity-70">
                   <DetailsWeather
                     visibility={metersToKilometers(
                       todayWeather?.visibility ?? 10000
@@ -211,8 +214,8 @@ export default function Home() {
               </div>
             </section>
             {/* 5 day forecast data */}
-            <section className="flex flex-col gap-2 w-full">
-              <p className="text-2xl">Forecast (5 days)</p>
+            <section className="flex flex-col gap-2 sm:gap-7 w-full">
+              <p className="text-2xl text-slate-300">Forecast (5 days)</p>
               {firstDataForEachDay.map((d, i) => (
                 <DetailWeatherComponent
                   key={i}

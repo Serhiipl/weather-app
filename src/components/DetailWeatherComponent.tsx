@@ -16,7 +16,7 @@ export default function DetailWeatherComponent(props: IForecastWeatherDetail) {
     description,
   } = props;
   return (
-    <WeatherContainer className="gap-4">
+    <WeatherContainer className="gap-4 backdrop-filter backdrop-blur-sm bg-opacity-70">
       <section className="flex items-center gap-4 px-4">
         <div className="flex flex-col items-center">
           <WeatherIcon iconName={weatherIcon} />
@@ -36,7 +36,7 @@ export default function DetailWeatherComponent(props: IForecastWeatherDetail) {
           </div>
         </div>
       </section>
-      <section className="flex justify-between gap-4 w-full px-4 pr-10 overflow-x-auto">
+      <section className="flex justify-between gap-4 w-full px-4 pr-5 sm:pr-10 overflow-x-auto">
         <DetailsWeather {...props} />
       </section>
     </WeatherContainer>

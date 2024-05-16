@@ -6,7 +6,7 @@ import "./globals.css";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
+  // useQuery,
   // } from "@tanstack/react-query";
 } from "react-query";
 
