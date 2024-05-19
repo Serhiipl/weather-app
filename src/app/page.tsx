@@ -191,7 +191,7 @@ export default function Home() {
                     )}
                   />
                 </WeatherContainer>
-                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-200/70 overflow-x-auto ">
+                <WeatherContainer className="justify-between gap-4 px-6 bg-yellow-400/70 overflow-x-auto ">
                   <DetailsWeather
                     visibility={metersToKilometers(
                       todayWeather?.visibility ?? 10000

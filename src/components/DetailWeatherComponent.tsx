@@ -20,8 +20,8 @@ export default function DetailWeatherComponent(props: IForecastWeatherDetail) {
       <section className="flex items-center gap-4 px-4">
         <div className="flex flex-col items-center">
           <WeatherIcon iconName={weatherIcon} />
-          <p>{date}</p>
-          <p className="text-sm">{day}</p>
+          <p className="font-semibold">{date}</p>
+          <p className="text-sm font-semibold">{day}</p>
         </div>
         <div className="flex flex-col gap-2 items-center px-4">
           <span className="text-5xl">{temp}°</span>
