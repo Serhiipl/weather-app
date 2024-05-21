@@ -43,6 +43,7 @@ export default function Navbar({ location }: Props) {
     setCity(value);
     setShowSuggestions(false);
     setPlace(city);
+    setCity("");
   }
   function handleSubmitSearch(e: React.FormEvent<HTMLFormElement>) {
     setLoadingCity(true);
@@ -57,7 +58,7 @@ export default function Navbar({ location }: Props) {
         setPlace(city);
         setShowSuggestions(false);
         setCity("");
-      }, 500);
+      }, 200);
     }
   }
   function handleCurrentLocation() {

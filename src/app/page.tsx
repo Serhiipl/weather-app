@@ -109,23 +109,6 @@ export default function Home() {
     });
   });
 
-  // Отримання унікальних дат без часу
-  // const uniqueDates = [
-  //   ...new Set(
-  //     data?.list.map((item) =>
-  //       new Date(item.dt_txt).toISOString().substring(0, 10)
-  //     )
-  //   ),
-  // ];
-  // console.log("uniqueDates", uniqueDates);
-  // // Вибір записів погоди після 00:00 години для кожного дня
-  // const firstDataForEachDay = uniqueDates.map((date) => {
-  //   return data?.list.filter((entry) => {
-  //     const entryDate = new Date(entry.dt * 1000).toISOString().split("T")[0];
-  //     const entryTime = new Date(entry.dt * 1000).getHours();
-  //     return entryDate === date && entryTime >= 6;
-  //   })[0]; // Вибір першого запису після 00:00 години для кожного дня
-  // });
   return (
     <div
       className="flex flex-col gap-4 bg-gray-100 min-h-screen"
