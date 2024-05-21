@@ -103,7 +103,7 @@ export default function Navbar({ location }: Props) {
             <p className="text-slate-900/80 text-lg">{location}</p>
           </div>
         </div>
-        <section className="flex sm:items-center justify-end min-w-96 py-4 sm:py-0 sm:min-w-min">
+        <section className="flex sm:items-center justify-end min-w-[400px] py-4 px-2 sm:py-0 sm:min-w-min">
           <div className="relative">
             {/* search */}
             <SearchBar

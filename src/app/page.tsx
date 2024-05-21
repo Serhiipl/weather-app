@@ -17,8 +17,9 @@ import DetailWeatherComponent from "@/components/DetailWeatherComponent";
 import { useAtom } from "jotai";
 import { loadingCityAtom, placeAtom } from "./atom";
 import WeatherSkeleton from "@/components/WeatherSkeleton";
-const backgroundImageURL = "/bg-image.webp";
+
 export default function Home() {
+  const backgroundImageURL = "/bg-img.webp";
   const [place, setPlace] = useAtom(placeAtom);
   const [loadingCity] = useAtom(loadingCityAtom);
 
@@ -72,7 +73,7 @@ export default function Home() {
     refetch();
   }, [data, place, refetch]);
 
-  console.log("data", data);
+  // console.log("data", data);
   if (isLoading)
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -125,7 +126,6 @@ export default function Home() {
   //     return entryDate === date && entryTime >= 6;
   //   })[0]; // Вибір першого запису після 00:00 години для кожного дня
   // });
-
   return (
     <div
       className="flex flex-col gap-4 bg-gray-100 min-h-screen"
